@@ -145,7 +145,18 @@ class TaskController {
         snap.docs.map((doc) => TaskModel.fromMap(doc.data())).toList());
   }
 
-
+  Future<bool> removeTask(String taskId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('tasks')
+          .doc(taskId)
+          .delete();
+      return true;
+    } catch (e) {
+      print("Failed to remove task: $e");
+      return false;
+    }
+  }
 
 
 

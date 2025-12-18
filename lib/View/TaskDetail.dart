@@ -251,6 +251,36 @@ class _TaskDetailState extends State<TaskDetail> {
       },
     );
   }
+  Future<void> _removeTask() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Delete Task"),
+        content: const Text(
+            "Are you sure you want to remove this task? This cannot be undone."),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text("Delete"),
+          ),
+        ],
+      ),
+    );
+    if (confirm != true) return;
+    final success = await _taskController.removeTask(_editableTask.taskId);
+    if (success) {
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Failed to remove task")),
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -310,7 +340,7 @@ class _TaskDetailState extends State<TaskDetail> {
                       style: const TextStyle(
                           fontSize: 32, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 28),
                     // Status & Priority
                     Column(
                       children: [
@@ -407,6 +437,15 @@ class _TaskDetailState extends State<TaskDetail> {
                           child: const Text("Edit Task",style: TextStyle(color: Colors.black),),
                         ),
                         const SizedBox(width: 20),
+                        ElevatedButton(
+                          onPressed: _removeTask,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.redAccent,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 20),
+                          ),
+                          child: const Text("Remove Task",style: TextStyle(color: Colors.black),),
+                        ),
 
                       ],
                     ),
