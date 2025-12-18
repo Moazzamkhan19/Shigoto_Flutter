@@ -117,7 +117,7 @@ class _TaskDetailState extends State<TaskDetail> {
     );
   }
 
-  // ---------------- Edit Task Dialog ----------------
+  // Edit Task Dialog
   void _showEditTaskDialog() {
     Projectcontroller projectcontroller=Projectcontroller();
     final TextEditingController nameController =

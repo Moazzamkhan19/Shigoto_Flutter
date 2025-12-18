@@ -136,6 +136,7 @@ class TaskController {
       };
     });
   }
+
   Stream<List<TaskModel>> getAllUserTasks(String userId) {
     return FirebaseFirestore.instance
         .collection("tasks")
